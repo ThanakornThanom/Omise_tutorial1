@@ -107,8 +107,10 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          createToken("Somchai Prasert", "4242424242424242", "2", "22", "123");
+        onPressed: () async {
+          String restponse = await createTokenByAu(
+              "Somchai Prasert", "4242424242424242", "2", "22", "123");
+          print(restponse);
         },
         tooltip: 'Increment',
         child: Icon(Icons.add),

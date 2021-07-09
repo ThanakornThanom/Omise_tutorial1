@@ -34,3 +34,34 @@ Future<void> createToken(String name, String cardNumber, String month,
     throw e;
   }
 }
+
+Future<String> createTokenByAu(String name, String cardNumber, String month,
+    String year, String securityCode) async {
+  try {
+    http.Response response =
+        await http.post(Uri.parse("https://vault.omise.co/tokens"),
+            headers: {
+              'Authorization':
+                  'Basic ' + base64Encode(utf8.encode('$publickey:')),
+              // 'Omise-Version': '2019-05-29',
+              // 'Cache-Control': 'no-cache',
+              'Content-Type': 'application/json'
+            },
+            body: jsonEncode({
+              'card': {
+                'name': name,
+                'number': cardNumber,
+                'expiration_month': month,
+                'expiration_year': year,
+                'security_code': securityCode,
+              }
+            }));
+    // print(response.statusCode);
+    // print(response.headers);
+    // log(jsonDecode(response.body).toString());
+
+    return jsonDecode(response.body)["id"];
+  } catch (e) {
+    throw e;
+  }
+}
